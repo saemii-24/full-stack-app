@@ -1,0 +1,11 @@
+# Node.js
+node_modules/
+
+# Python
+__pycache__/
+
+# Environment
+.env
+
+# Docker
+**/postgres_data/
