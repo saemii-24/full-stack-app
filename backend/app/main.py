@@ -1,14 +1,19 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException
+from sqlalchemy.orm import Session
+from . import models, schemas, crud
+from .database import engine, SessionLocal
+
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-@app.get("/")
-def read_root():
-    return {"message": "Hello World"}
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
-@app.get("/todos")
-def get_todos():
-    return [
-        {"id": 1, "task": "FastAPI 공부하기"},
-        {"id": 2, "task": "ToDo 앱 만들기"}
-    ]
+@app.post("/todos", response_model=schemas.Todo)
+def create_todo(todo: schemas.TodoCreate, db: Session = Depends(get_db)):
+    return crud.create_todo(db=db, todo=todo)
