@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Boolean
 from .database import Base
 
+
 class Todo(Base):
     __tablename__ = "todos"
 
@@ -8,3 +9,4 @@ class Todo(Base):
     title = Column(String, index=True)
     description = Column(String, nullable=True)
     completed = Column(Boolean, default=False)
+    important = Column(Boolean, default=False)
