@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Query
 from sqlalchemy.orm import Session
 from . import models, schemas, crud
 from .database import engine, SessionLocal
@@ -18,8 +18,14 @@ def get_db():
 
 
 @app.post("/todos", response_model=schemas.Todo)
-def create_todo(todo: schemas.TodoCreate, db: Session = Depends(get_db)):
-    return crud.create_todo(db=db, todo=todo)
+def create_todo(
+    todo: schemas.TodoCreate,
+    important: bool = Query(False),
+    db: Session = Depends(get_db),
+):
+    todo_data = todo.model_dump()
+    todo_data["important"] = important
+    return crud.create_todo(db=db, todo=schemas.TodoCreate(**todo_data))
 
 
 @app.get("/todos", response_model=List[schemas.Todo])

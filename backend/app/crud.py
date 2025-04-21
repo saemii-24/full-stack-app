@@ -4,7 +4,10 @@ from . import models, schemas
 
 def create_todo(db: Session, todo: schemas.TodoCreate):
     db_todo = models.Todo(
-        title=todo.title, description=todo.description, completed=False
+        title=todo.title,
+        description=todo.description,
+        completed=False,
+        important=todo.important,
     )
     db.add(db_todo)
     db.commit()
@@ -25,6 +28,7 @@ def update_todo(db: Session, todo_id: int, todo_data: schemas.TodoCreate):
     if db_todo:
         db_todo.title = todo_data.title
         db_todo.description = todo_data.description
+        db_todo.important = todo_data.important
         db.commit()
         db.refresh(db_todo)
     return db_todo
