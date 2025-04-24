@@ -15,3 +15,16 @@ class Todo(TodoCreate):
 
     class Config:
         orm_mode = True
+
+
+class UserCreate(BaseModel):
+    userId: str
+    password: str
+
+
+class User(BaseModel):
+    id: int
+    userId: str
+
+    class Config:
+        orm_mode = True

@@ -10,3 +10,10 @@ class Todo(Base):
     description = Column(String, nullable=True)
     completed = Column(Boolean, default=False)
     important = Column(Boolean, default=False)
+
+
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True, index=True)
+    userId = Column(String, index=True)
+    password = Column(String)
