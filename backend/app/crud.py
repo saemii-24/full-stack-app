@@ -24,7 +24,9 @@ def get_todo(db: Session, todo_id: int):
 
 
 def get_important_todos(db: Session, important: bool):
-    return db.query(models.Todo).filter(models.Todo.important == important).all()
+    return db.query(models.Todo).filter(
+        models.Todo.important == important
+    ).all()
 
 
 def update_todo(db: Session, todo_id: int, todo_data: schemas.TodoCreate):
@@ -47,7 +49,9 @@ def delete_todo(db: Session, todo_id: int):
 
 
 def get_or_create_user(db: Session, user: schemas.UserCreate):
-    db_user = db.query(models.User).filter(models.User.userId == user.userId).first()
+    db_user = db.query(models.User).filter(
+        models.User.userId == user.userId
+        ).first()
 
     if db_user:
         return db_user

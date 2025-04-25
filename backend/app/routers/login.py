@@ -8,4 +8,8 @@ router = APIRouter(prefix="/login", tags=["Login"])
 
 @router.post("", response_model=schemas.User)
 def login(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    return crud.get_or_create_user(db=db, user=user)
+    db_user = crud.get_or_create_user(db=db, user=user)
+    return {
+        "id": str(db_user.id),
+        "userId": db_user.userId,
+    }
