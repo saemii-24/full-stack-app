@@ -11,6 +11,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials): Promise<User | null> {
+        console.log(`${process.env.NEXT_PUBLIC_API_BASE_URL}/login`)
         if (!credentials) return null;
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/login`,
