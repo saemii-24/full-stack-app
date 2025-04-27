@@ -11,19 +11,21 @@ export default function LoginPage() {
   const [userId, setUserId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false); 
   const router = useRouter();
 
   const handleLogin = async () => {
+    setIsLoading(true);
     const res = await signIn("credentials", {
       userId,
       password,
       redirect: false,
     });
-
     if (res?.ok) {
       router.push("/");
     } else {
       setError("아이디 또는 비밀번호를 확인해주세요.");
+      setIsLoading(false); 
     }
   };
 
@@ -39,16 +41,18 @@ export default function LoginPage() {
             placeholder="아이디"
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
+            disabled={isLoading} // 입력 중에도 비활성화 할 수 있음
           />
           <Input
             type="password"
             placeholder="비밀번호"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            disabled={isLoading}
           />
           {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-          <Button onClick={handleLogin} className="w-full">
-            로그인
+          <Button onClick={handleLogin} disabled={isLoading} className="w-full">
+            {isLoading ? "로그인 중..." : "로그인"}
           </Button>
         </CardContent>
       </Card>
