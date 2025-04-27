@@ -10,20 +10,22 @@ type Todo = {
 
 export default async function TodoList() {
  
-  const data = await fetch(`http://127.0.0.1:8800/todos`)
- console.log(data)
+  const data = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/todos`)
+  const todos = await data.json();
+
 
   return (
     <div className="flex flex-col gap-4">
-      {/* {todos?.map((todo:Todo) => (
+      {todos?.map((todo:Todo) => (
         <TodoItem
+          id={todo.id}
           key={todo.id}
           title={todo.title}
           description={todo.description}
           completed={todo.completed}
           important={todo.important}
         />
-      ))} */}
+      ))}
     </div>
   );
 }
