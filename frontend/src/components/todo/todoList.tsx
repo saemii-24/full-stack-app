@@ -6,6 +6,7 @@ type Todo = {
   description?: string;
   completed: boolean;
   important: boolean;
+  created_at: string; 
 };
 
 export default async function TodoList() {
@@ -24,6 +25,7 @@ export default async function TodoList() {
           description={todo.description}
           completed={todo.completed}
           important={todo.important}
+          created_at={todo.created_at}
         />
       ))}
     </div>
