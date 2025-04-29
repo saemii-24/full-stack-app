@@ -11,7 +11,8 @@ type TodoItemProps = {
   title: string;
   description?: string;
   completed: boolean;
-  important?: boolean;
+  important?: boolean;  
+  created_at: string; 
 };
 
 export default function TodoItem({
@@ -19,7 +20,9 @@ export default function TodoItem({
   description,
   completed,
   important,
+  created_at,
 }: TodoItemProps) {
+
   const [isChecked, setIsChecked] = useState(completed);
 
   const handleToggle = () => {
@@ -27,7 +30,16 @@ export default function TodoItem({
     // TODO: 체크 상태 서버에 업데이트
   };
 
-  // TODO: 날짜 저장 필요
+  function formatDateRange(dateString: string) {
+    const startDate = new Date(dateString);
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + 1);
+  
+    const format = (date: Date) => 
+      `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, "0")}.${date.getDate().toString().padStart(2, "0")}`;
+  
+    return `${format(startDate)} ~ ${format(endDate)}`;
+  }
 
   return (
     <Card className="w-full p-5 rounded-2xl flex flex-col gap-3 shadow-sm">
@@ -65,7 +77,7 @@ export default function TodoItem({
 
       {/* 하단 영역 */}
       <div className="flex items-center justify-between text-sm text-gray-400">
-        {/* <span></span> TODO: 날짜 업데이트 */}
+        <span>{formatDateRange(created_at)}</span>
         {important && <Star/>}
       </div>
     </Card>

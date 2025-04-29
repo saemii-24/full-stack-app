@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import TIMESTAMP, Column, Integer, String, Boolean, func
 from .database import Base
 
 
@@ -10,6 +10,7 @@ class Todo(Base):
     description = Column(String, nullable=True)
     completed = Column(Boolean, default=False)
     important = Column(Boolean, default=False)
+    created_at = Column(TIMESTAMP, server_default=func.now())
 
 
 class User(Base):

@@ -1,3 +1,4 @@
+import datetime
 from pydantic import BaseModel
 
 
@@ -12,6 +13,7 @@ class TodoCreate(BaseModel):
 class Todo(TodoCreate):
     id: int
     completed: bool
+    created_at: datetime.datetime
 
     class Config:
         orm_mode = True
