@@ -8,6 +8,10 @@ class TodoCreate(BaseModel):
     description: str = None
     important: bool = False
 
+# FE에서 Body로 주는 값 Parsing
+class TodoUpdateCompleted(BaseModel):
+    completed: bool
+
 
 # BE에서 만드는 값
 class Todo(TodoCreate):

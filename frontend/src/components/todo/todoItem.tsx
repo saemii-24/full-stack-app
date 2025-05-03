@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import Star from "../icon/star";
 
 type TodoItemProps = {
@@ -11,11 +11,12 @@ type TodoItemProps = {
   title: string;
   description?: string;
   completed: boolean;
-  important?: boolean;  
-  created_at: string; 
+  important?: boolean;
+  created_at: string;
 };
 
 export default function TodoItem({
+  id,
   title,
   description,
   completed,
@@ -25,19 +26,37 @@ export default function TodoItem({
 
   const [isChecked, setIsChecked] = useState(completed);
 
-  const handleToggle = () => {
-    setIsChecked((prev) => !prev);
-    // TODO: 체크 상태 서버에 업데이트
+  const handleToggle = async () => {
+    const newChecked = !isChecked;
+    setIsChecked(newChecked);
+
+    try {
+      const response = await fetch(`/todos/completed/${id}`, {
+        method: "PATCH", //일부만 업데이트 할 떄 사용된다.
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ completed: newChecked }),
+      });
+
+      if (!response.ok) {
+        throw new Error("업데이트에 실패했습니다.");
+      }
+    } catch (error) {
+      setIsChecked(!newChecked);
+      alert("서버 업데이트 실패. 다시 시도해 주세요.");
+    }
   };
+
 
   function formatDateRange(dateString: string) {
     const startDate = new Date(dateString);
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 1);
-  
-    const format = (date: Date) => 
+
+    const format = (date: Date) =>
       `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, "0")}.${date.getDate().toString().padStart(2, "0")}`;
-  
+
     return `${format(startDate)} ~ ${format(endDate)}`;
   }
 
@@ -50,9 +69,8 @@ export default function TodoItem({
           <Checkbox checked={isChecked} onCheckedChange={handleToggle} />
           <div className="flex flex-col">
             <h2
-              className={`text-lg font-bold ${
-                isChecked ? "line-through text-gray-400" : ""
-              }`}
+              className={`text-lg font-bold ${isChecked ? "line-through text-gray-400" : ""
+                }`}
             >
               {title}
             </h2>
@@ -78,7 +96,7 @@ export default function TodoItem({
       {/* 하단 영역 */}
       <div className="flex items-center justify-between text-sm text-gray-400">
         <span>{formatDateRange(created_at)}</span>
-        {important && <Star/>}
+        {important && <Star />}
       </div>
     </Card>
   );
