@@ -32,6 +32,11 @@ def update_todo(
     return crud.update_todo(db=db, todo_id=todo_id, todo_data=todo_data)
 
 
+@router.patch("/completed/{todo_id}", status_code=200)
+def patch_complete(todo_id: int, request: schemas.TodoUpdateCompleted, db: Session = Depends(get_db)):
+    return crud.patch_complete(db, todo_id, request.completed)
+
+
 @router.delete("/{todo_id}", status_code=204)
 def delete_todo(todo_id: int, db: Session = Depends(get_db)):
     crud.delete_todo(db=db, todo_id=todo_id)
