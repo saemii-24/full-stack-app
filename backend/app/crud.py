@@ -46,10 +46,6 @@ def delete_todo(db: Session, todo_id: int):
     return db_todo
 
 
-from sqlalchemy.orm import Session
-from . import models
-
-
 def patch_complete(db: Session, todo_id: int, completed: bool):
     todo = db.query(models.Todo).filter(models.Todo.id == todo_id).first()
 
