@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Noto_Sans_KR } from 'next/font/google'
- 
-const noto = Noto_Sans_KR({ subsets: ['latin'] })
+import { Noto_Sans_KR } from "next/font/google";
+import { worker } from "@/__mocks__/browser";
+
+const noto = Noto_Sans_KR({ subsets: ["latin"] });
+
+if (process.env.NODE_ENV === "development") {
+  worker.start();
+}
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,11 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body
-        className={`${noto.className}  antialiased`}
-      >
-        {children}
-      </body>
+      <body className={`${noto.className}  antialiased`}>{children}</body>
     </html>
   );
 }
