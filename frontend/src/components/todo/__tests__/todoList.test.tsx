@@ -37,24 +37,23 @@ afterAll(() => server.close());
 
 describe("TodoList", () => {
   it("todos가 올바르게 렌더링 되는가", async () => {
-    const { container } = await render(<TodoList />);
+    const { container } = render(await TodoList());
 
-    // 데이터 로드 후 할일 목록 확인
     expect(container).toHaveTextContent("테스트 할일");
     expect(container).toHaveTextContent("두 번째 할일");
   });
 
-  it("에러 상황에서 적절히 에러 메세지가 출력되는가가", async () => {
-    // 에러 (status 500)
+  it("에러 상황에서 적절히 에러 메시지가 출력되는가", async () => {
+    // 서버 응답을 500 에러로 mock
     server.use(
       http.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/todos`, () => {
         return new HttpResponse(null, { status: 500 });
       })
     );
 
-    const { container } = await render(<TodoList />);
+    const { container } = render(await TodoList());
 
-    // 에러 메시지 확인
+    // 메시지 포함 여부 확인
     expect(container).toHaveTextContent("할일을 불러오는데 실패했습니다.");
   });
 });
