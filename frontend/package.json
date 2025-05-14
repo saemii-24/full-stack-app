@@ -9,8 +9,11 @@
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "storybook": "npm run tailwind:watch | npm run storybook:dev",
+    "storybook:dev": "storybook dev -p 6006",
+    "storybook:build": "npm run tailwind:build && storybook build",
+    "tailwind:build": "tailwindcss --cwd ./src -i ./src/app/globals.css -o ./src/app/styles.css",
+    "tailwind:watch": "npm run tailwind:build --watch"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.2.3",
