@@ -19,6 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      {/* <link href="./output.css" rel="stylesheet" /> */}
       <body className={Noto.variable + " font"}>{children}</body>
     </html>
   );

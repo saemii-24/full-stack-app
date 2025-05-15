@@ -22,4 +22,11 @@ export const Default: Story = {
     important: true,
     created_at: "2024-03-20T00:00:00.000Z",
   },
+  decorators: [
+    (Story) => (
+      <div className="max-w-md mx-auto  p-4">
+        <Story />
+      </div>
+    ),
+  ],
 };
